@@ -79,7 +79,9 @@ public class MainView extends JPanel {
 
     public void randomizar(){
         AleatorioController.gerarGrafoAleatorio(controller);
-        organizar();
+        // organizar();
+        controller.getDesenho().centralizar(atual.getWidth(), atual.getHeight());
+        mudaTelaGrafo(-1);
     }
 
     public void salvar(){

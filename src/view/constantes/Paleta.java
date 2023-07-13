@@ -17,6 +17,8 @@ public class Paleta {
     public static Font MENU_FONT_DEFAULT = new Font("Serif",Font.PLAIN, 25);
     public static Font MENU_FONT_SMALL = new Font("Serif",Font.PLAIN, 12);
 
+    public static int RIGHT_BUTTON = 3;
+    public static int LEFT_BUTTON = 1;
 
     public static Color STROKE_DEFAULT = new Color(0x515151);
     public static BasicStroke STROKE_WIDTH_DEFAULT = new BasicStroke(2);

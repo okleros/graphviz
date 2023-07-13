@@ -3,9 +3,10 @@ package src.view;
 import javax.swing.JFrame;
 import src.view.constantes.Paleta;
 
-public class Janela extends JFrame{
-
-    public Janela(){
+public class Janela extends JFrame
+{
+    public Janela()
+    {
         this.setTitle("Vizualizador de Grafos");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setResizable(false);
@@ -18,9 +19,12 @@ public class Janela extends JFrame{
         this.add(new MainView());
     }
 
-    public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
+    public static void main(String[] args) 
+    {
+        java.awt.EventQueue.invokeLater(new Runnable() 
+        {
+            public void run() 
+            {
                 new Janela().setVisible(true);
             }
         });    

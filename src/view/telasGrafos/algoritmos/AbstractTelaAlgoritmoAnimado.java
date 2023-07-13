@@ -16,28 +16,33 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public abstract class AbstractTelaAlgoritmoAnimado extends AbstractTelaAlgoritmo {
+public abstract class AbstractTelaAlgoritmoAnimado extends AbstractTelaAlgoritmo 
+{
     Timer timer;
 
     ArrayList<Alteration> arr;
     int pos;
 
-    AbstractTelaAlgoritmoAnimado(GrafoController controller){
+    AbstractTelaAlgoritmoAnimado(GrafoController controller)
+    {
         super(controller);
 
         this.setLayout(new BorderLayout());
         BarraDeOpcoes barra = new BarraDeOpcoes();
-        this.add(barra,BorderLayout.PAGE_END);
+        this.add(barra, BorderLayout.PAGE_END);
         
     }
 
     abstract public void executa();
 
-    public void animate(){
-        timer = new Timer(0, new ActionListener() {
+    public void animate()
+    {
+        timer = new Timer(0, new ActionListener() 
+        {
             @Override
-            public void actionPerformed(ActionEvent arg0) {
-                if(arg0.getSource()==timer)
+            public void actionPerformed(ActionEvent arg0) 
+            {
+                if (arg0.getSource() == timer)
                     step();
             }
         });
@@ -46,52 +51,64 @@ public abstract class AbstractTelaAlgoritmoAnimado extends AbstractTelaAlgoritmo
         timer.start(); 
     }
 
-    public void step() { 
-        if(arr == null) return;
-        if(pos < arr.size()) {
+    public void step() 
+    { 
+        if (arr == null) return;
+        if (pos < arr.size()) 
+        {
             arr.get(pos++).modifica();
             repaint();
         }
-        else if (timer != null && timer.isRunning()){
+        else if (timer != null && timer.isRunning())
+        {
             timer.stop();
         }
     }
 
-    public void backstep() {
-        if(arr == null) return;
-        if(pos >= 1){
+    public void backstep() 
+    {
+        if (arr == null) return;
+        if (pos >= 1)
+        {
             arr.get(--pos).retorna();
             repaint();
         }
     }
 
     @Override
-    public void setVisible(boolean aFlag) {
+    public void setVisible(boolean aFlag) 
+    {
         super.setVisible(aFlag);
-        if(aFlag == false && timer != null){
+        if (aFlag == false && timer != null)
+        {
             arr = null;
             pos = 0;
             timer.stop();
         }
     }
 
-    private void toogleTimer(){
-        if(timer != null){
-            if(timer.isRunning())
+    private void toogleTimer()
+    {
+        if (timer != null)
+        {
+            if (timer.isRunning())
                 timer.stop();
             else
                 timer.restart();
         }
     }
 
-    class BarraDeOpcoes extends JPanel {
+    class BarraDeOpcoes extends JPanel 
+    {
         JButton last, auto, next;
 
-        BarraDeOpcoes() {
+        BarraDeOpcoes() 
+        {
             initComponent();
         }
 
-        void initComponent(){
+        void initComponent()
+        {
             last = new JButton("<<");
             this.add(last);
 
@@ -101,27 +118,34 @@ public abstract class AbstractTelaAlgoritmoAnimado extends AbstractTelaAlgoritmo
             next = new JButton(">>");
             this.add(next);
 
-            auto.addActionListener(new ActionListener(){
+            auto.addActionListener(new ActionListener()
+            {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    if(e.getSource() == auto){
+                public void actionPerformed(ActionEvent e) 
+                {
+                    if (e.getSource() == auto)
+                    {
                         toogleTimer();   
                         
-                        if(timer != null && timer.isRunning()) auto.setText("II");
-                        if(timer != null && !timer.isRunning()) auto.setText(">");
+                        if (timer != null && timer.isRunning()) auto.setText("II");
+                        if (timer != null && !timer.isRunning()) auto.setText(">");
                     }
                 }
             });
 
             
-            last.addActionListener(new ActionListener(){
+            last.addActionListener(new ActionListener()
+            {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    if(e.getSource() == last){
-                        if(timer != null && timer.isRunning()){
+                public void actionPerformed(ActionEvent e) 
+                {
+                    if (e.getSource() == last)
+                    {
+                        if (timer != null && timer.isRunning())
+                        {
                             toogleTimer();  
-                            if(timer != null && timer.isRunning()) auto.setText("||");
-                            if(timer != null && !timer.isRunning()) auto.setText(">");
+                            if (timer != null && timer.isRunning()) auto.setText("||");
+                            if (timer != null && !timer.isRunning()) auto.setText(">");
                         }
                         backstep();
                     }
@@ -129,14 +153,18 @@ public abstract class AbstractTelaAlgoritmoAnimado extends AbstractTelaAlgoritmo
             });
 
             
-            next.addActionListener(new ActionListener(){
+            next.addActionListener(new ActionListener()
+            {
                 @Override
-                public void actionPerformed(ActionEvent e) {
-                    if(e.getSource() == next){
-                        if(timer != null && timer.isRunning()){
+                public void actionPerformed(ActionEvent e) 
+                {
+                    if (e.getSource() == next)
+                    {
+                        if (timer != null && timer.isRunning())
+                        {
                             toogleTimer();   
-                            if(timer != null && timer.isRunning()) auto.setText("||");
-                            if(timer != null && !timer.isRunning()) auto.setText(">");
+                            if (timer != null && timer.isRunning()) auto.setText("||");
+                            if (timer != null && !timer.isRunning()) auto.setText(">");
                         }
                         
                         step();
@@ -146,13 +174,14 @@ public abstract class AbstractTelaAlgoritmoAnimado extends AbstractTelaAlgoritmo
 
             this.setBackground(Paleta.TRANSPARENTE);
             
-            for(Component c : this.getComponents()){
+            for (Component c : this.getComponents())
+            {
                 c.setBackground(Paleta.MENU_BOTAO1_COR_DEFAULT);
-                c.setFont(Paleta.MENU_FONT_DEFAULT.deriveFont(Font.BOLD,12));
+                c.setFont(Paleta.MENU_FONT_DEFAULT.deriveFont(Font.BOLD, 12));
                 c.setForeground(Paleta.MENU_BOTAO_FONT_COR_DEFAULT);
                 c.setFocusable(false);
                 
-                if(c instanceof JButton)
+                if (c instanceof JButton)
                     ((JButton)c).setBorderPainted(false);
             }
 

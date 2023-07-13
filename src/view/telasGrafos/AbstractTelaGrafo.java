@@ -11,26 +11,26 @@ import src.view.display.GrafoDisplay;
 public abstract class AbstractTelaGrafo extends JPanel{
     protected GrafoController controller;
 
-    public AbstractTelaGrafo(){
-
-    }
-
-    public AbstractTelaGrafo(GrafoController controller) {
+    public AbstractTelaGrafo(GrafoController controller) 
+    {
         this.controller = controller;
         initComponent();
     }
 
-    protected void initComponent() {
+    protected void initComponent() 
+    {
         this.setPreferredSize(new Dimension(500, 500));
         this.setFont(Paleta.LABEL_FONT_DEFAULT);
         this.setVisible(true);
     }
 
-    public GrafoController getController() {
+    public GrafoController getController() 
+    {
         return controller;
     }
 
-    public GrafoDisplay getDesenho() {
+    public GrafoDisplay getDesenho() 
+    {
         return controller.getDesenho();
     }
 

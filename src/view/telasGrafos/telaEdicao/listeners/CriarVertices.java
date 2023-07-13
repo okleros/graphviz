@@ -6,23 +6,31 @@ import java.awt.event.MouseEvent;
 import src.view.display.VerticeDisplay;
 import src.view.telasGrafos.telaEdicao.TelaEdicao;
 
-public class CriarVertices extends MouseAdapter {
+import src.view.constantes.Paleta;
+
+public class CriarVertices extends MouseAdapter 
+{
     TelaEdicao tela;
     VerticeDisplay dragTarget;
 
-    public CriarVertices(TelaEdicao tela){
+    public CriarVertices(TelaEdicao tela)
+    {
         this.tela = tela;
         dragTarget = null;
     }
 
     @Override
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e) 
+    {
         //Criar ou Arrastar Vértices
-        if(e.getClickCount() == 1 && e.getButton() == 1){ 
+        if (e.getClickCount() == 1 && e.getButton() == Paleta.LEFT_BUTTON)
+        { 
             VerticeDisplay selecionado = tela.getController().getDesenho().verticeContendo(e.getPoint());
-            if(selecionado != null){
+            if (selecionado != null)
+            {
                 dragTarget = selecionado;
-            } else {
+            } else 
+            {
                 tela.getController().adicionaVertice(e.getPoint());
             }  
             
@@ -31,16 +39,20 @@ public class CriarVertices extends MouseAdapter {
     }
 
     @Override
-    public void mouseReleased(MouseEvent e) {
-        if(dragTarget != null){
+    public void mouseReleased(MouseEvent e) 
+    {
+        if (dragTarget != null)
+        {
             dragTarget = null;
         }
     }
 
     @Override
-    public void mouseDragged(MouseEvent e) {
-        if(dragTarget != null){
-            if(tela.contains(e.getPoint()))
+    public void mouseDragged(MouseEvent e) 
+    {
+        if (dragTarget != null)
+        {
+            if (tela.contains(e.getPoint()))
                 dragTarget.setCentro(e.getPoint());                    
             
             tela.repaint();

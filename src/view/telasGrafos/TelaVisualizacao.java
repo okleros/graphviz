@@ -7,34 +7,40 @@ import java.awt.RenderingHints;
 
 import src.controller.GrafoController;
 
-public class TelaVisualizacao extends AbstractTelaGrafo { 
+public class TelaVisualizacao extends AbstractTelaGrafo 
+{ 
     int offsetX = 100, offsetY = 100;
     int mnx = -1, mxx = -1, mny = -1, mxy = -1;
     
-    public TelaVisualizacao(AbstractTelaGrafo T){
+    public TelaVisualizacao(AbstractTelaGrafo T)
+    {
         this(T.getController());
     }
 
-    public TelaVisualizacao(GrafoController controller){
+    public TelaVisualizacao(GrafoController controller)
+    {
         super(controller);
         initComponent(controller);
     }
 
-    void initComponent(GrafoController controller) {
-        for(int i = 0; i < controller.getN(); i++){
-            if(controller.verticeExiste(i)){
+    void initComponent(GrafoController controller) 
+    {
+        for (int i = 0; i < controller.getN(); i++)
+        {
+            if (controller.verticeExiste(i))
+            {
                 Point p = controller.getDesenho().getVertice(i).getCentro();
                 
-                if(p.getX() < mnx || mnx == -1)
+                if (p.getX() < mnx || mnx == -1)
                     mnx = ((int) p.getX());
                 
-                if(p.getX() > mxx || mxx == -1)
+                if (p.getX() > mxx || mxx == -1)
                     mxx = ((int) p.getX());
                 
-                if(p.getY() < mny || mny == -1)
+                if (p.getY() < mny || mny == -1)
                     mny = ((int) p.getY());
                 
-                if(p.getY() > mxy || mxy == -1)
+                if (p.getY() > mxy || mxy == -1)
                     mxy = ((int) p.getY());
             }
         }
@@ -45,7 +51,8 @@ public class TelaVisualizacao extends AbstractTelaGrafo {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    protected void paintComponent(Graphics g) 
+    {
         super.paintComponent(g);
         
         Graphics2D g2 = (Graphics2D) g;

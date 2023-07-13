@@ -20,31 +20,39 @@ import java.util.ArrayList;
 import src.model.ArestaGenerico;
 import src.view.telasGrafos.TelaVisualizacao;
 
-public class FileController {
-
-    public static void salvarGrafo(GrafoController controller, String nome) throws Exception {
+public class FileController 
+{
+    // Transforma todo o grafo em um vetor de bytes e escreve para um arquivo jpeg
+    public static void salvarGrafo(GrafoController controller, String nome) throws Exception 
+    {
         byte tag[] = new byte[2]; tag[0] = (byte) 0xFF; tag[1] = (byte) 0xFE; 
         
         ArrayList<Integer> arr = new ArrayList<>();
         
         arr.add(controller.getN()); arr.add(controller.getM());
         
-        for(int i = 0; i < controller.getN(); i++) {
-            if(controller.verticeExiste(i)) {
+        for (int i = 0; i < controller.getN(); i++) 
+        {
+            if (controller.verticeExiste(i)) 
+            {
                 arr.add((int) controller.getDesenho().getVertice(i).getCentro().getX()); 
                 arr.add((int) controller.getDesenho().getVertice(i).getCentro().getY());
             
-            } else {
+            } else 
+            {
                 arr.add(-1); arr.add(-1);
             }
         }
-        for(int i = 0; i < controller.getN(); i++) {
-            if(!controller.verticeExiste(i)) continue;
+        for (int i = 0; i < controller.getN(); i++) 
+        {
+            if (!controller.verticeExiste(i)) continue;
             
             ArrayList<ArestaGenerico> adj = controller.getAdjList(i);
             
-            for(ArestaGenerico e : adj) {
-                if (e.getOrigem() < e.getDestino()) {
+            for (ArestaGenerico e : adj) 
+            {
+                if (e.getOrigem() < e.getDestino()) 
+                {
                     arr.add(e.getDestino()); 
                     arr.add(e.getOrigem()); 
                     arr.add(-1); //Peso
@@ -60,7 +68,8 @@ public class FileController {
         
         panel.print(img.getGraphics());
         
-        try {
+        try 
+        {
             ImageIO.write(img, "jpeg", new File(nome));
             
             Path p = FileSystems.getDefault().getPath(nome);
@@ -72,19 +81,22 @@ public class FileController {
             stream.write(fileData);
             stream.write(tag);
             
-            for(int i:arr){    
+            for (int i:arr)
+            {    
                 stream.writeInt(i);
             }
             
             stream.close();
         
-        } catch (IOException e) {
+        } catch (IOException e) 
+        {
             e.printStackTrace();
             throw e;
         }
     }
 
-    private static int bytesToInt(byte b1, byte b2, byte b3, byte b4){
+    private static int bytesToInt(byte b1, byte b2, byte b3, byte b4)
+    {
         long ans = 0;
         
         ans |= (int) b1;
@@ -98,9 +110,16 @@ public class FileController {
         return (int) ans;
     }
 
-    public static void carregarGrafo(GrafoController controller, File img) throws Exception {
+    /*  Faz o inverso da função de salvar, lê os bytes de um jpeg qualquer,
+        e como o salvamento é feito de forma padronizada, o carregamento só
+        funcionará se a imagem de entrada tiver o mesmo formato de bytes que
+        a função de salvar gera, ou seja, só podemos abrir grafos que foram
+        gerados no nosso software ou com técnica semelhante.    */
+    public static void carregarGrafo(GrafoController controller, File img) throws Exception 
+    {
         Path p = FileSystems.getDefault().getPath(img.getAbsolutePath());
-        try {
+        try 
+        {
             //vetor de bytes da imagem
             byte [] fileData = Files.readAllBytes(p);
 
@@ -117,21 +136,11 @@ public class FileController {
             int m = stream.readInt();
             
             controller.clear();
-            /**
-             * 3
-             * 4
-             * (x,y)
-             * (x,y)
-             * (x,y)
-             * a b w
-             * a b w
-             * a b w
-             * a b w
-             */
             
             ArrayList<Integer> excluir = new ArrayList<>();
             
-            for (int i = 0, x, y; i < n; i++){
+            for (int i = 0, x, y; i < n; i++)
+            {
                 x = stream.readInt();
                 y = stream.readInt();
           
@@ -140,7 +149,8 @@ public class FileController {
                 if (x == -1) excluir.add(i);
             }
 
-            for (int i = 0, u, v, w; i < m; i++){
+            for (int i = 0, u, v, w; i < m; i++)
+            {
                 u = stream.readInt();
                 v = stream.readInt();
                 w = stream.readInt(); // Peso
@@ -148,13 +158,16 @@ public class FileController {
                 controller.adicionaAresta(u, v);
             }
             
-            for (int e : excluir){
+            for (int e : excluir)
+            {
                 controller.removeVertice(e);
             }
 
             stream.close();
             
-        } catch (Exception e) {
+        }
+        catch (Exception e) 
+        {
             throw e;
         }
     }

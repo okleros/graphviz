@@ -10,23 +10,30 @@ import src.model.ArestaGenerico;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class BreadthFirstSearch extends AbstractTelaAlgoritmoAnimado {
+public class BreadthFirstSearch extends AbstractTelaAlgoritmoAnimado 
+{
 
-    public BreadthFirstSearch(GrafoController controller){
+    public BreadthFirstSearch(GrafoController controller)
+    {
         super(controller);
         info = "Breadth First Search";
     }
 
     @Override
-    public void executa() {
+    public void executa() 
+    {
         info = "Select a vertex";
         repaint();
         
-        this.addMouseListener(new MouseAdapter(){
-            public void mousePressed(MouseEvent e) {
+        this.addMouseListener(new MouseAdapter()
+        {
+            public void mousePressed(MouseEvent e) 
+            {
                 //Criar ou Arrastar Vértices
-                if(e.getClickCount() == 1 && e.getButton() == 1){ 
-                    if(getController().getDesenho().verticeContendo(e.getPoint()) != null){
+                if (e.getClickCount() == 1 && e.getButton() == 1)
+                { 
+                    if (getController().getDesenho().verticeContendo(e.getPoint()) != null)
+                    {
                         resposta(getController().getDesenho().verticeContendo(e.getPoint()).getId());
                     }
                 }
@@ -35,15 +42,17 @@ public class BreadthFirstSearch extends AbstractTelaAlgoritmoAnimado {
         
     }
 
-    void resposta(int u){
+    void resposta(int u)
+    {
         this.removeMouseListener(this.getMouseListeners()[0]);
         info = "Breadth First Search";
         repaint();
         executa(u);
     }
     
-    public void executa(int u) {
-        if(getController().getN() == 0) return;
+    public void executa(int u) 
+    {
+        if (getController().getN() == 0) return;
 
         arr = new ArrayList<>();
         pos = 0;
@@ -53,22 +62,25 @@ public class BreadthFirstSearch extends AbstractTelaAlgoritmoAnimado {
         animate();
     }
 
-    void precomputa(int source){
-        //int[] dist = new int[getController().getN()];                
+    void precomputa(int source)
+    {              
         int[] visited = new int[getController().getN()];                
         ArrayDeque<Integer> q = new ArrayDeque<Integer>();
         visited[source] = -1; q.push(source);
 
-        while(q.isEmpty() == false){
+        while(q.isEmpty() == false)
+        {
             int u = q.poll();
 
-            if(visited[u] != -1)
+            if (visited[u] != -1)
                 arr.add(new Alteration(getController().getDesenho().getAresta(visited[u]), Paleta.ALGORITHM_0, Paleta.ALGORITHM_0, Paleta.STROKE_WIDTH_DEFAULT));
             arr.add(new Alteration(getController().getDesenho().getVertice(u), Paleta.ALGORITHM_0, Paleta.STROKE_DEFAULT, Paleta.WIDE_STROKE));
 
             ArrayList<ArestaGenerico> adj = getController().getAdjList(u);
-            for(ArestaGenerico e:adj){
-                if(visited[e.getDestino()] == 0){
+            for (ArestaGenerico e:adj)
+            {
+                if (visited[e.getDestino()] == 0)
+                {
                     visited[e.getDestino()] = e.getId();
                     q.addLast(e.getDestino());                    
 
